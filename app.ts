@@ -1,6 +1,6 @@
 import express from 'express';
 import connection from './config/db';
-const port = 3000;
+const port = 3030;
 
 import User from './src/user/UserModel';
 
