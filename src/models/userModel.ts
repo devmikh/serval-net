@@ -9,7 +9,6 @@ const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USER!, proc
 
 class User extends Model {
     public id!: number;
-    public name!: string;
     public email!: string;
     public password!: string;
 }
@@ -19,10 +18,6 @@ User.init({
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
-    },
-    name: {
-        type: DataTypes.STRING(128),
-        allowNull: false,
     },
     email: {
         type: DataTypes.STRING(128),
