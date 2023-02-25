@@ -8,12 +8,16 @@ const createUser = async (user: { email: string, password: string} ) => {
     const hashedPassword = await bcrypt.hash(user.password, salt);
 
     // Create new user object
-    const newUser = await User.create({
-        email: user.email,
-        password: hashedPassword
-    });
-
-    console.log('user.create', newUser);
+    try {
+        const newUser = await User.create({
+            email: user.email,
+            password: hashedPassword
+        });
+        console.log('createUser: success. New user: ', newUser);
+    } catch (error) {
+        console.error('createUser: failure. Error: ', error);
+        throw error;
+    }
 }
 
 export {
