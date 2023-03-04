@@ -28,4 +28,6 @@ User.init({
     underscored: true
 });
 
+User.sync();
+
 export default User;
