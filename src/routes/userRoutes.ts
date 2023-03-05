@@ -1,6 +1,5 @@
 import express from 'express';
 import { createUser } from '../services/userService';
-import { validatePassword } from '../../utils/passwordUtils';
 import passport from '../config/passport';
 
 import dotenv from 'dotenv';
@@ -9,8 +8,22 @@ dotenv.config();
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.json({ message: 'this is /api route' });
+    if (req.isAuthenticated()) {
+        res.json({ message: 'this is a home page' });
+    } else {
+        res.redirect(`${process.env.CLIENT_URL}/login`);
+    }
+    
 });
+
+// Test route (to be removed)
+router.get('/protected', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({ message: 'Authorized'});
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
+})
 
 router.post('/register', async (req, res) => {
     try {
@@ -36,6 +49,13 @@ router.post('/login', (req, res, next) => {
           return res.status(200).json({ status: 'success'});
         });
       })(req, res, next);
+});
+
+router.get('/logout', (req, res, next) => {
+    req.logout(function(err) {
+        if (err) { console.log(err); return next(err); }
+        res.status(200).json({ status: 'success'});
+      });
 });
 
 export default router;

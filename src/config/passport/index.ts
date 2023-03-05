@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy, Strategy } from 'passport-local';
 import User from "../../models/userModel";
-import { validatePassword } from "../../../utils/passwordUtils";
+import { validatePassword } from "../../utils/passwordUtils";
 
 // Define passport local strategy
 passport.use(new LocalStrategy({ usernameField: 'email'}, (username, password, done) => {
@@ -22,12 +22,10 @@ passport.use(new LocalStrategy({ usernameField: 'email'}, (username, password, d
 }));
 
 passport.serializeUser((user: any, done) => {
-    console.log("inside serialize, done: ", done)
     done(null, user.id);
 });
 
 passport.deserializeUser((id: number, done) => {
-    console.log("inside deserialize")
     User.findByPk(id)
       .then((user) => done(null, user))
       .catch((err) => done(err));
