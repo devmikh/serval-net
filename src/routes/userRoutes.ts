@@ -16,12 +16,12 @@ router.get('/', (req, res) => {
     
 });
 
-// Test route (to be removed)
-router.get('/protected', (req, res) => {
+// Dedicated route to check if user is authenticated
+router.get('/is-authenticated', (req, res) => {
     if (req.isAuthenticated()) {
-        res.json({ message: 'Authorized'});
+        res.status(200).json({ authenticated: true});
     } else {
-        res.status(401).json({ message: 'Unauthorized' });
+        res.status(401).json({ authenticated: false });
     }
 })
 
