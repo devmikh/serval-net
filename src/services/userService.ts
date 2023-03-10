@@ -14,6 +14,7 @@ const createUser = async (user: { email: string, password: string} ) => {
             password: hashedPassword
         });
         console.log('createUser: success. New user: ', newUser);
+        return newUser;
     } catch (error) {
         console.error('createUser: failure. Error: ', error);
         throw error;

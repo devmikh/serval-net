@@ -25,10 +25,20 @@ router.get('/is-authenticated', (req, res) => {
     }
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
     try {
-        await createUser(req.body);
-        res.status(200).json({ status: 'success' });
+        const newUser = await createUser(req.body);
+        if (newUser) {
+            req.logIn(newUser, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).json({ status: 'success', message: 'User registered successfully' });
+            })
+        } else {
+            res.status(500).json({ message: 'Internal server error'});
+        }
+        
     } catch(error: any) {
         res.status(500).json({ error: error.message });
     }
