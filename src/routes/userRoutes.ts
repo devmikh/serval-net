@@ -47,16 +47,19 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err: any, user: any, info: any) => {
         if (err) {
-          return next(err);
+            return next(err);
         }
         if (!user) {
-          return res.status(401).json({ error: "Invalid email or password"});
+            return res.status(401).json({ error: "Invalid email or password"});
         }
         req.logIn(user, (err) => {
-          if (err) {
-            return next(err);
-          }
-          return res.status(200).json({ status: 'success'});
+            if (err) {
+                return next(err);
+            }
+            res.cookie('user', JSON.stringify({ email: req.body.email }), {
+                maxAge: 1000 * 60 * 60 * 24
+            });
+            return res.status(200).json({ status: 'success'});
         });
       })(req, res, next);
 });
