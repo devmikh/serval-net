@@ -33,6 +33,9 @@ router.post('/register', async (req, res, next) => {
                 if (err) {
                     return next(err);
                 }
+                res.cookie('user', JSON.stringify({ email: req.body.email }), {
+                    maxAge: 1000 * 60 * 60 * 24
+                });
                 res.status(200).json({ status: 'success', message: 'User registered successfully' });
             })
         } else {
