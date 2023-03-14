@@ -74,4 +74,10 @@ router.get('/logout', (req, res, next) => {
       });
 });
 
+
+// To be removed
+router.get('/test', (req, res, next) => {
+    res.status(200).send({ user: { email: 'test@test.com', name: 'test test' }});
+});
+
 export default router;
