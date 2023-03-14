@@ -19,8 +19,22 @@ const createUser = async (user: { email: string, password: string} ) => {
         console.error('createUser: failure. Error: ', error);
         throw error;
     }
-}
+};
+
+const findUser = async (userId: number) => {
+    try {
+        const user = await User.findByPk(userId);
+        return {
+            id: user?.id,
+            email: user?.email
+        };
+    } catch (error) {
+        console.error('findUser: failure. Error: ', error);
+        throw error;
+    }
+};
 
 export {
-    createUser
+    createUser,
+    findUser
 }

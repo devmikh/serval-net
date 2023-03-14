@@ -1,5 +1,6 @@
 import express from 'express';
-import { createUser } from '../services/userService';
+
+import { createUser, findUser } from '../services/userService';
 import passport from '../config/passport';
 
 import dotenv from 'dotenv';
@@ -13,15 +14,15 @@ router.get('/', (req, res) => {
     } else {
         res.redirect(`${process.env.CLIENT_URL}/login`);
     }
-    
 });
 
 // Dedicated route to check if user is authenticated
-router.get('/is-authenticated', (req, res) => {
+router.get('/is-authenticated', async (req: any, res) => {
     if (req.isAuthenticated()) {
-        res.status(200).json({ authenticated: true});
+        const user = await findUser(JSON.parse(req.cookies.user).id);
+        res.status(200).json({ authenticated: true, user });
     } else {
-        res.status(401).json({ authenticated: false });
+        res.status(401).json({ authenticated: false, user: null });
     }
 })
 
@@ -33,7 +34,7 @@ router.post('/register', async (req, res, next) => {
                 if (err) {
                     return next(err);
                 }
-                res.cookie('user', JSON.stringify({ email: req.body.email }), {
+                res.cookie('user', JSON.stringify({ id: newUser.id }), {
                     maxAge: 1000 * 60 * 60 * 24
                 });
                 res.status(200).json({ status: 'success', message: 'User registered successfully' });
@@ -59,7 +60,7 @@ router.post('/login', (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            res.cookie('user', JSON.stringify({ email: req.body.email }), {
+            res.cookie('user', JSON.stringify({ id: user.id }), {
                 maxAge: 1000 * 60 * 60 * 24
             });
             return res.status(200).json({ status: 'success'});

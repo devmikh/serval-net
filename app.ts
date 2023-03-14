@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
+import cookieParser from 'cookie-parser';
 import router from './src/routes';
 import passport from './src/config/passport';
 const MySQLStore = require('express-mysql-session')(session);
@@ -28,6 +29,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
 
 app.use(session({
     secret: 'some secret',
