@@ -13,11 +13,17 @@ const createUser = async (user: { email: string, password: string} ) => {
             email: user.email,
             password: hashedPassword
         });
-        console.log('createUser: success. New user: ', newUser);
-        return newUser;
-    } catch (error) {
-        console.error('createUser: failure. Error: ', error);
-        throw error;
+        return {
+            newUser,
+            error: null
+        };
+    } catch (error: any) {
+        if (error.errors[0].message === "email must be unique") {
+            return {
+                newUser: null,
+                error: "duplicate_email"
+            }
+        }
     }
 };
 

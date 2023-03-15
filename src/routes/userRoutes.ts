@@ -8,16 +8,10 @@ dotenv.config();
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    if (req.isAuthenticated()) {
-        res.json({ message: 'this is a home page' });
-    } else {
-        res.redirect(`${process.env.CLIENT_URL}/login`);
-    }
-});
+/* ROUTES */
 
-// Dedicated route to check if user is authenticated
-router.get('/is-authenticated', async (req: any, res) => {
+// Check if user is authenticated
+router.get('/is-authenticated', async (req, res) => {
     if (req.isAuthenticated()) {
         const user = await findUser(JSON.parse(req.cookies.user).id);
         res.status(200).json({ authenticated: true, user });
@@ -26,26 +20,24 @@ router.get('/is-authenticated', async (req: any, res) => {
     }
 })
 
+// Register new user
 router.post('/register', async (req, res, next) => {
-    try {
-        const newUser = await createUser(req.body);
-        if (newUser) {
-            req.logIn(newUser, (err) => {
-                if (err) {
-                    return next(err);
-                }
-                res.cookie('user', JSON.stringify({ id: newUser.id }), {
-                    maxAge: 1000 * 60 * 60 * 24
-                });
-                res.status(200).json({ status: 'success', message: 'User registered successfully' });
-            })
-        } else {
-            res.status(500).json({ message: 'Internal server error'});
-        }
-        
-    } catch(error: any) {
-        res.status(500).json({ error: error.message });
+    
+    const result = await createUser(req.body);
+    if (result && result.newUser) {
+        req.logIn(result.newUser, (err) => {
+            if (err) {
+                return next(err);
+            }
+            res.cookie('user', JSON.stringify({ id: result.newUser.id }), {
+                maxAge: 1000 * 60 * 60 * 24
+            });
+            res.status(200).json({ status: 'success', message: 'registration_success' });
+        })
+    } else if (result && !result.newUser) {
+        res.status(500).json({ error: result.error });
     }
+    
 });
 
 router.post('/login', (req, res, next) => {
@@ -73,12 +65,6 @@ router.get('/logout', (req, res, next) => {
         if (err) { console.log(err); return next(err); }
         res.status(200).json({ status: 'success'});
       });
-});
-
-
-// To be removed
-router.get('/test', (req, res, next) => {
-    res.status(200).send({ user: { email: 'test@test.com', name: 'test test' }});
 });
 
 export default router;
