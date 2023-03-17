@@ -16,9 +16,18 @@ router.get('/is-authenticated', async (req, res) => {
         const user = await findUser(JSON.parse(req.cookies.user).id);
         res.status(200).json({ authenticated: true, user });
     } else {
-        res.status(401).json({ authenticated: false, user: null });
+        res.status(200).json({ authenticated: false, user: null });
     }
-})
+});
+
+// Check if user is authorized
+router.get('/is-authorized', async (req, res) => {
+    if (req.isAuthenticated()) {
+        res.status(200).json({ authorized: true });
+    } else {
+        res.status(401).json({ authorized: false });
+    }
+});
 
 // Register new user
 router.post('/register', async (req, res, next) => {
@@ -32,7 +41,7 @@ router.post('/register', async (req, res, next) => {
             res.cookie('user', JSON.stringify({ id: result.newUser.id }), {
                 maxAge: 1000 * 60 * 60 * 24
             });
-            res.status(200).json({ status: 'success', message: 'registration_success' });
+            res.status(200).json({ status: 'success', message: 'registration_success', user: result.newUser });
         })
     } else if (result && !result.newUser) {
         res.status(500).json({ error: result.error });
@@ -55,7 +64,7 @@ router.post('/login', (req, res, next) => {
             res.cookie('user', JSON.stringify({ id: user.id }), {
                 maxAge: 1000 * 60 * 60 * 24
             });
-            return res.status(200).json({ status: 'success'});
+            return res.status(200).json({ status: 'success', user });
         });
       })(req, res, next);
 });
