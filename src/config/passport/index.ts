@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from 'passport-local';
-import User from "../../models/userModel";
-import { validatePassword } from "../../utils/passwordUtils";
+import User from "../../models/user";
+import { validatePassword } from "../../utils/password";
 
 // Define passport local strategy
 passport.use(new LocalStrategy({ usernameField: 'email'}, (username, password, done) => {

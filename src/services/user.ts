@@ -1,11 +1,11 @@
-import bcrypt from 'bcrypt';
-import User from '../models/userModel';
+import User from '../models/user';
+import { UserInterface }  from '../interfaces/index';
+import { hashPassword } from '../utils/password';
 
-const createUser = async (user: { email: string, password: string} ) => {
+const createUser = async (user: UserInterface) => {
 
     // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(user.password, salt);
+    const hashedPassword = await hashPassword(user.password);
 
     // Create new user object
     try {

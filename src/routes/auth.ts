@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { createUser, findUser } from '../services/userService';
+import { createUser, findUser } from '../services/user';
 import passport from '../config/passport';
 
 import dotenv from 'dotenv';
@@ -10,7 +10,7 @@ const router = express.Router();
 
 /* ROUTES */
 
-// Check if user is authenticated
+// Check if user is authenticated and send user object back
 router.get('/is-authenticated', async (req, res) => {
     if (req.isAuthenticated()) {
         const user = await findUser(JSON.parse(req.cookies.user).id);
