@@ -22,6 +22,26 @@ const createPost = async (post: PostInterface) => {
     }
 }
 
+const getUserPosts = async (userId: number) => {
+    try {
+        const posts = await Post.findAll({
+            where: {
+              user_id: userId
+            }
+        });
+        return {
+            posts,
+            error: null
+        }
+    } catch (err: any) {
+        return {
+            posts: null,
+            error: err.message
+        }
+    }
+};
+
 export {
-    createPost
+    createPost,
+    getUserPosts
 }
