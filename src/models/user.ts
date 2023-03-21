@@ -4,6 +4,8 @@ import sequelize from '../config/sequelize';
 class User extends Model {
     public id!: number;
     public email!: string;
+    public username!: string;
+    public full_name!: string;
     public password!: string;
 }
 
@@ -16,7 +18,26 @@ User.init({
     email: {
         type: DataTypes.STRING(128),
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+            isEmail: true
+        }
+    },
+    username: {
+        type: DataTypes.STRING(128),
+        allowNull: false,
+        unique: true,
+        validate: {
+            min: 1,
+            max: 30
+        }
+    },
+    full_name: {
+        type: DataTypes.STRING(128),
+        allowNull: true,
+        validate: {
+            max: 30
+        }
     },
     password: {
         type: DataTypes.STRING(128),
@@ -29,6 +50,6 @@ User.init({
     underscored: true
 });
 
-User.sync();
+User.sync({ alter: true });
 
 export default User;

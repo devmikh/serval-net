@@ -3,7 +3,7 @@ import { UserInterface }  from '../interfaces/index';
 import { hashPassword } from '../utils/password';
 
 const createUser = async (user: UserInterface) => {
-
+    console.log('in create user,', user)
     // Hash password
     const hashedPassword = await hashPassword(user.password);
 
@@ -11,6 +11,8 @@ const createUser = async (user: UserInterface) => {
     try {
         const newUser = await User.create({
             email: user.email,
+            username: user.username,
+            full_name: user.fullName,
             password: hashedPassword
         });
         return {
@@ -22,6 +24,11 @@ const createUser = async (user: UserInterface) => {
             return {
                 newUser: null,
                 error: "duplicate_email"
+            }
+        } else if (error.errors[0].message === "username must be unique") {
+            return {
+                newUser: null,
+                error: "duplicate_username"
             }
         }
     }

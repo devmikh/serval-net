@@ -31,7 +31,7 @@ router.get('/is-authorized', async (req, res) => {
 
 // Register new user
 router.post('/register', async (req, res, next) => {
-    
+
     const result = await createUser(req.body);
     if (result && result.newUser) {
         req.logIn(result.newUser, (err) => {
@@ -44,7 +44,12 @@ router.post('/register', async (req, res, next) => {
             res.status(200).json({ status: 'success', message: 'registration_success', user: result.newUser });
         })
     } else if (result && !result.newUser) {
-        res.status(500).json({ error: result.error });
+        if (result.error === 'duplicate_email' || result.error === 'duplicate_username') {
+            res.status(409).json({ error: result.error });
+        } else {
+            res.status(500).json({ error: result.error });
+        }
+        
     }
     
 });
@@ -55,7 +60,7 @@ router.post('/login', (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return res.status(401).json({ error: "Invalid email or password"});
+            return res.status(401).json({ error: "invalid_credentials"});
         }
         req.logIn(user, (err) => {
             if (err) {
