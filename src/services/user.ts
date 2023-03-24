@@ -34,20 +34,36 @@ const createUser = async (user: UserInterface) => {
     }
 };
 
-const findUser = async (userId: number) => {
+const fetchUser = async (userId: number) => {
     try {
         const user = await User.findByPk(userId);
+        
+        if (user) {
+            const result = {
+                id: user.id,
+                email: user.email,
+                full_name: user.full_name,
+                username: user.username
+            };
+            return {
+                user: result,
+                error: null
+            }
+        } else {
+            return {
+                user: null,
+                error: "user_not_found"
+            }
+        }
+    } catch (error: any) {
         return {
-            id: user?.id,
-            email: user?.email
-        };
-    } catch (error) {
-        console.error('findUser: failure. Error: ', error);
-        throw error;
+            user: null,
+            error: error.message
+        }
     }
 };
 
 export {
     createUser,
-    findUser
+    fetchUser
 }

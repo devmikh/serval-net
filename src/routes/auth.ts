@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { createUser, findUser } from '../services/user';
+import { createUser, fetchUser } from '../services/user';
 import passport from '../config/passport';
 
 import dotenv from 'dotenv';
@@ -13,10 +13,10 @@ const router = express.Router();
 // Check if user is authenticated and send user object back
 router.get('/is-authenticated', async (req, res) => {
     if (req.isAuthenticated()) {
-        const user = await findUser(JSON.parse(req.cookies.user).id);
-        res.status(200).json({ authenticated: true, user });
+        const result = await fetchUser(JSON.parse(req.cookies.user).id);
+        res.status(200).json({ ...result, authenticated: true,  });
     } else {
-        res.status(200).json({ authenticated: false, user: null });
+        res.status(200).json({ authenticated: false });
     }
 });
 
