@@ -1,7 +1,7 @@
 import express from 'express';
 import moment from 'moment';
 
-import { createPost, getUserPosts } from '../services/post';
+import { createPost, getUserPosts } from '../services/posts';
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.get('/users/:id/posts', async (req, res) =>  {
     if (!result.error) {
         res.status(200).json(result);
     } else {
-        res.status(500).json(result);
+        res.status(500).json(result)
     }
    
 });

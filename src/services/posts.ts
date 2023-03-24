@@ -1,5 +1,7 @@
 import Post from '../models/post';
 import { PostInterface } from '../interfaces';
+import sequelize from '../config/sequelize';
+import { selectPostsQuery } from '../config/sequelize/queries';
 
 const createPost = async (post: PostInterface) => {
     try {
@@ -24,13 +26,9 @@ const createPost = async (post: PostInterface) => {
 
 const getUserPosts = async (userId: number) => {
     try {
-        const posts = await Post.findAll({
-            where: {
-              user_id: userId
-            }
-        });
+        const [ result ] = await sequelize.query(selectPostsQuery, { replacements: [userId]});
         return {
-            posts,
+            posts: result,
             error: null
         }
     } catch (err: any) {
