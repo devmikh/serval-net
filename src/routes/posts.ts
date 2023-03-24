@@ -17,7 +17,12 @@ router.get('/newPost', async (req, res) => {
 
 router.get('/users/:id/posts', async (req, res) =>  {
     const result = await getUserPosts(Number(req.params.id));
-    res.status(200).json(result);
+    if (!result.error) {
+        res.status(200).json(result);
+    } else {
+        res.status(500).json(result);
+    }
+   
 });
 
 export default router;
