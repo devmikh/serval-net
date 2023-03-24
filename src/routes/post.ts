@@ -16,7 +16,7 @@ router.get('/newPost', async (req, res) => {
 });
 
 router.get('/users/:id/posts', async (req, res) =>  {
-    const result = await getUserPosts(1);
+    const result = await getUserPosts(Number(req.params.id));
     res.status(200).json(result);
 });
 
