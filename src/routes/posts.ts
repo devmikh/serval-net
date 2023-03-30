@@ -1,7 +1,7 @@
 import express from 'express';
 import moment from 'moment';
 
-import { createPost, getUserPosts } from '../services/posts';
+import { createPost, deletePost, getUserPosts } from '../services/posts';
 
 const router = express.Router();
 
@@ -16,6 +16,19 @@ router.post('/createPost', async (req: any, res) => {
             res.status(200).json({ result });
         } else {
             res.status(500).json({ result });
+        }
+    } else {
+        res.status(401).json({ authorized: false });
+    }
+});
+
+router.delete('/deletePost/:id', async (req: any, res) => {
+    if (req.user && req.isAuthenticated) {
+        const deleted = await deletePost(Number(req.params.id));
+        if (deleted) {
+            res.status(200).json({ message: 'post_delete_success'});
+        } else {
+            res.status(500).json({ message: 'post_delete_failure'});
         }
     } else {
         res.status(401).json({ authorized: false });

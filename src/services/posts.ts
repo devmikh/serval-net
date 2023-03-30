@@ -24,6 +24,16 @@ const createPost = async (post: PostInterface) => {
     }
 }
 
+const deletePost = async (postId: number) => {
+    try {
+        await Post.destroy({ where: { id: postId }})
+        return true;
+    } catch (err: any) {
+        console.error(err);
+        return false;
+    }
+}
+
 const getUserPosts = async (userId: number) => {
     try {
         const [ result ] = await sequelize.query(selectPostsQuery, { replacements: [userId]});
@@ -41,5 +51,6 @@ const getUserPosts = async (userId: number) => {
 
 export {
     createPost,
-    getUserPosts
+    getUserPosts,
+    deletePost
 }
