@@ -5,14 +5,21 @@ import { createPost, getUserPosts } from '../services/posts';
 
 const router = express.Router();
 
-// test route (TO BE REMOVED)
-router.get('/newPost', async (req, res) => {
-    const result = await createPost({
-        user_id: 1,
-        date: moment().valueOf(),
-        text: "sample post text"
-    });
-    res.send(result);
+router.post('/createPost', async (req: any, res) => {
+    if (req.user && req.isAuthenticated) {
+        const result = await createPost({
+            user_id: req.user.id,
+            date: moment().valueOf(),
+            text: req.body.text
+        });
+        if (!result.error) {
+            res.status(200).json({ result });
+        } else {
+            res.status(500).json({ result });
+        }
+    } else {
+        res.status(401).json({ authorized: false });
+    }
 });
 
 router.get('/users/:id/posts', async (req, res) =>  {
