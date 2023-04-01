@@ -40,7 +40,7 @@ const fetchUser = async (userId: number) => {
     try {
         const [ user ] = await sequelize.query(selectUserQuery, { replacements: [userId]});
         
-        if (user) {
+        if (user[0]) {
             return {
                 user: user[0],
                 error: null
