@@ -1,6 +1,8 @@
 import User from '../models/user';
+import sequelize from '../config/sequelize';
 import { UserInterface }  from '../interfaces/index';
 import { hashPassword } from '../utils/password';
+import { selectUserQuery } from '../config/sequelize/queries';
 
 const createUser = async (user: UserInterface) => {
     console.log('in create user,', user)
@@ -36,17 +38,11 @@ const createUser = async (user: UserInterface) => {
 
 const fetchUser = async (userId: number) => {
     try {
-        const user = await User.findByPk(userId);
+        const [ user ] = await sequelize.query(selectUserQuery, { replacements: [userId]});
         
         if (user) {
-            const result = {
-                id: user.id,
-                email: user.email,
-                full_name: user.full_name,
-                username: user.username
-            };
             return {
-                user: result,
+                user: user[0],
                 error: null
             }
         } else {
