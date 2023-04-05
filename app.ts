@@ -19,6 +19,7 @@ const corsOptions = {
     credentials: true
 };
 app.use(cors(corsOptions));
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -38,9 +39,8 @@ const sessionStore = new MySQLStore(dbOptions);
 
 app.use(session({
     secret: process.env.SESSION_SECRET!,
-    resave: true,
-    saveUninitialized: true,
-    rolling: true,
+    resave: false,
+    saveUninitialized: false,
     store: sessionStore,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24,
