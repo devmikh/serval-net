@@ -39,10 +39,10 @@ const sessionStore = new MySQLStore(dbOptions);
 app.use(session({
     secret: process.env.SESSION_SECRET!,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     store: sessionStore,
     cookie: {
-        // maxAge: 1000 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24,
         secure: true,
         sameSite: 'none',
         // domain: 'vercel.app'
