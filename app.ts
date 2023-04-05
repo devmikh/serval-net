@@ -38,8 +38,9 @@ const sessionStore = new MySQLStore(dbOptions);
 
 app.use(session({
     secret: process.env.SESSION_SECRET!,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
+    // rolling: true,
     store: sessionStore,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24,
