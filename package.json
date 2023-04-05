@@ -2,8 +2,9 @@
   "name": "serval-net-server",
   "version": "0.1.0",
   "description": "",
-  "main": "app.js",
+  "main": "app.ts",
   "scripts": {
+    "start": "node app.ts",
     "build": "npx tsc",
     "dev": "nodemon app.ts"
   },
