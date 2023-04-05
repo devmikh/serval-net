@@ -40,7 +40,7 @@ router.post('/register', async (req, res, next) => {
             }
             res.cookie('user', JSON.stringify({ id: result.newUser.id }), {
                 maxAge: 1000 * 60 * 60 * 24,
-                domain: '.vercel.app'
+                sameSite: 'none'
             });
             res.status(200).json({ status: 'success', message: 'registration_success', user: result.newUser });
         })
@@ -68,7 +68,8 @@ router.post('/login', (req, res, next) => {
                 return next(err);
             }
             res.cookie('user', JSON.stringify({ id: user.id }), {
-                maxAge: 1000 * 60 * 60 * 24
+                maxAge: 1000 * 60 * 60 * 24,
+                sameSite: 'none'
             });
             return res.status(200).json({ status: 'success', user });
         });
