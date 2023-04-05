@@ -41,13 +41,13 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    // cookie: {
-    //     maxAge: 1000 * 60 * 60 * 24,
-    //     sameSite: 'none',
-    //     secure: true,
-    //     domain: 'vercel.app'
-    //     // httpOnly: true
-    // }
+    cookie: {
+        // maxAge: 1000 * 60 * 60 * 24,
+        sameSite: 'none',
+        // secure: true,
+        // domain: 'vercel.app'
+        // httpOnly: true
+    }
 }));
 
 // Apply passport middleware
