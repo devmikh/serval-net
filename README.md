@@ -1,3 +1,5 @@
+<img src='https://raw.githubusercontent.com/devmikh/serval-net-client/3f94cd4c7f9f11d36236664bfc4b35377775e1fa/public/icons/serval-logo.svg' width='128'>
+
 # Serval-net (Back-end)
 
 ## Table of contents
@@ -68,7 +70,7 @@ A MySQL database is used to store and manage the data required by the applicatio
 
 ## Usage
 
-This server should be used together with [client side of Serval-net application](https://github.com/devmikh/serval-net-client)
+This server should be used together with the [front-end of Serval-net application](https://github.com/devmikh/serval-net-client), which will send requests to this server.
 
 <a id="demo"></a>
 
