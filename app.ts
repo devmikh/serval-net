@@ -44,10 +44,9 @@ app.use(session({
     store: sessionStore,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24,
-        secure: true,
-        sameSite: 'none',
-        // domain: 'vercel.app'
-        // httpOnly: true
+        // uncomment for production
+        // secure: true,
+        // sameSite: 'none'
     }
 }));
 
