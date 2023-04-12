@@ -61,7 +61,19 @@ A MySQL database is used to store and manage the data required by the applicatio
    CLIENT_URL="http://localhost:3000"
    ```
 
-4. Start the server
+4. In `app.ts`, comment out or remove `secure` and `sameSite` cookie properties on lines `47` and `48`:
+
+   ```
+       cookie: {
+               maxAge: 1000 * 60 * 60 * 24,
+               // secure: true,
+               // sameSite: 'none'
+           }
+   ```
+
+   These properties are only required to be used in a production environment, and will prevent the intended cookies behaviour during the development.
+
+5. Start the server
    ```
    $ npm run dev
    ```
