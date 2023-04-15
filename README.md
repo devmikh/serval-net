@@ -1,4 +1,4 @@
-<img src='https://raw.githubusercontent.com/devmikh/serval-net-client/3f94cd4c7f9f11d36236664bfc4b35377775e1fa/public/icons/serval-logo.svg' width='128'>
+<img src='https://raw.githubusercontent.com/devmikh/serval-net-client/cce12999bb16a5436181430e318c3da0cf27a3ff/public/icons/serval-logo.svg' width='128'>
 
 # Serval-net (Back-end)
 
