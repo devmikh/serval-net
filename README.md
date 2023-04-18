@@ -61,7 +61,7 @@ A MySQL database is used to store and manage the data required by the applicatio
    CLIENT_URL="http://localhost:3000"
    ```
 
-4. In `app.ts`, comment out or remove `secure` and `sameSite` cookie properties on lines `47` and `48`:
+4. In `app.ts`, remove `secure` and `sameSite` cookie properties on lines `47` and `48`:
 
    ```
        cookie: {
@@ -72,6 +72,8 @@ A MySQL database is used to store and manage the data required by the applicatio
    ```
 
    These properties are only required to be used in a production environment, and will prevent the intended cookies behaviour during the development.
+
+   For the same reason, in `src/routes/auth.ts` lines `43`, `44`, `73`, `74` should be removed.
 
 5. Start the server
    ```
