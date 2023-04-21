@@ -6,7 +6,7 @@ import { createPost, deletePost, getUserPosts } from '../services/posts';
 const router = express.Router();
 
 router.post('/createPost', async (req: any, res) => {
-    if (req.user && req.isAuthenticated) {
+    if (req.user && req.isAuthenticated()) {
         const result = await createPost({
             user_id: req.user.id,
             date: moment().valueOf(),
