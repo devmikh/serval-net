@@ -86,14 +86,6 @@ A MySQL database is used to store and manage the data required by the applicatio
 
 This server should be used together with the [front-end of Serval-net application](https://github.com/devmikh/serval-net-client), which will send requests to this server.
 
-<a id="demo"></a>
-
-## Demo Link
-
-Try out a deployed version of the app by following this link:
-
-https://serval-net-client.vercel.app/
-
 <a id="tools"></a>
 
 ## Technologies & Tools
